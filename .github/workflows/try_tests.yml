@@ -1,0 +1,23 @@
+name: try running docker-compose then test.
+
+on:
+  workflow_dispatch: # Allow to run this workflow manually from the Actions tab
+
+jobs:
+  build-aws-infra:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: run docker-compose
+      run: docker-compose up -d
+
+    - name: make sure that docker-compose is running.
+      run: |
+        docker ps
+        curl localhost:5000
+
+    - name: run python tests
+      run: python ./tests/test_hello.py
