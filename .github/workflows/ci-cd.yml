@@ -1,6 +1,14 @@
 name: try running docker-compose then test.
 
 on:
+  # Auto
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+    types: [ "closed" ]
+
+  # Manual
   workflow_dispatch: # Allow to run this workflow manually from the Actions tab
     inputs:
       trigger:
@@ -17,8 +25,8 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # AWS User Credentials.
   EC2_PUBLIC_SSH_KEY: ${{ secrets.EC2_PUBLIC_SSH_KEY }} # Used to upload public key to aws.
   EC2_PRIVATE_SSH_KEY: ${{ secrets.EC2_PRIVATE_SSH_KEY }} # Used to ssh into EC2.
-  #TRIGGER: 'apply' # Make it 'apply' to build AWS infra, and 'destroy' to destroy it all. "auto_workflow (on Push)"
-  TRIGGER: '${{ inputs.trigger }}' # "manual workflow"
+  TRIGGER: 'apply' # Make it 'apply' to build AWS infra, and 'destroy' to destroy it all. "auto_workflow (on Push)", don't forget to comment the next line.
+  #TRIGGER: '${{ inputs.trigger }}' # "manual workflow"
 
 
 
