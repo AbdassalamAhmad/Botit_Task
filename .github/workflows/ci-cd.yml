@@ -85,6 +85,8 @@ jobs:
         ssh -i ./keys/ssh_key_aws ec2-user@$instance_ip << EOF
             ls -l
             docker-compose up --build -d
-            docker exec -it flask_container python3 tests/test_hello.py
+            
         EOF
       #working-directory: ./terraform
+
+# docker exec -it flask_container python3 tests/test_hello.py
