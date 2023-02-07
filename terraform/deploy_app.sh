@@ -11,8 +11,8 @@ cd ../
 scp -o StrictHostKeyChecking=no -i ./keys/ssh_key_aws -r src/ tests/ ./requirements.txt ./docker-compose.yml ./Dockerfile ec2-user@$instance_ip:~
 
 # ssh into EC2 and deploy Flask-App.
-ssh -i ./keys/ssh_key_aws ec2-user@$instance_ip << EOF
-    ls -l
-    docker-compose up --build -d
-    docker exec -it flask_container python3 tests/test_hello.py
-EOF
+ssh -i ./keys/ssh_key_aws ec2-user@$instance_ip "
+ls -l;
+docker-compose up --build -d;
+docker exec -it flask_container python3 tests/test_hello.py
+"
