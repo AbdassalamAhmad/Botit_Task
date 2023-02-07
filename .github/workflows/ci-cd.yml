@@ -2,6 +2,15 @@ name: try running docker-compose then test.
 
 on:
   workflow_dispatch: # Allow to run this workflow manually from the Actions tab
+    inputs:
+      trigger:
+        description: "apply OR destroy" # apply to build infra, destroy to destroy it all.
+        required: true
+        default: apply # will choose the word apply for you when triggering the pipeline manually.
+        type: choice
+        options:
+        - apply
+        - destroy
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} # AWS User Credentials.
