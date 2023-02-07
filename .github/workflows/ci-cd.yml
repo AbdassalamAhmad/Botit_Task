@@ -81,11 +81,11 @@ jobs:
         sudo chmod 400 ssh_key_aws
         cd ../terraform
         instance_ip=$(terraform output --raw instance_public_ip)
-        sudo ssh -o StrictHostKeyChecking=no -i ../keys/ssh_key_aws ec2-user@$instance_ip
+        sudo ssh -o StrictHostKeyChecking=no -i ../keys/ssh_key_aws ec2-user@$instance_ip << EOF
           ls -l
           docker-compose up -d
           docker ps
-
+        EOF
       working-directory: ./terraform
 
 #sudo chmod 700 ./deploy_app.sh
