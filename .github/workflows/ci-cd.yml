@@ -71,7 +71,7 @@ jobs:
   
   build-aws-infra-deploy:
     runs-on: ubuntu-latest
-    needs: test-flask
+    needs: test-flask-build-push-image
 
     steps:
     - name: Checkout Code
