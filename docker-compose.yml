@@ -4,4 +4,4 @@ services:
     container_name: flask_container
     build: . # build from Dockerfile
     ports:
-      - 5000:5000 # host:container
+      - 80:5000 # host:container
