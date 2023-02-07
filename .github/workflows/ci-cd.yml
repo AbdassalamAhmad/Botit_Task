@@ -33,7 +33,7 @@ env:
 
 
 jobs:
-  test-flask--build-push-image:
+  test-flask-build-push-image:
     runs-on: ubuntu-latest
 
     steps:
