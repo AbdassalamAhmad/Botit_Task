@@ -85,8 +85,8 @@ jobs:
       if: env.TRIGGER == 'apply'
       run: |-
         echo "instance_ip=$(terraform output --raw instance_public_ip)" >> $GITHUB_ENV 
-        sudo chmod 700 ./deploy_app.sh
-        ./deploy_app.sh
+        sudo chmod 700 ./copy_app_files.sh
+        ./copy_app_files.sh
       working-directory: ./terraform
 
     - name: Deploy Flask-App && Test it.
