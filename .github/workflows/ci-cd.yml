@@ -82,7 +82,9 @@ jobs:
         cd ../terraform
         instance_ip=$(terraform output --raw instance_public_ip)
         sudo ssh -o StrictHostKeyChecking=no -i ../keys/ssh_key_aws ec2-user@$instance_ip
-        ls -l
+          ls -l
+          docker-compose up -d
+          docker ps
 
       working-directory: ./terraform
 
