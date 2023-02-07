@@ -73,14 +73,17 @@ jobs:
         -auto-approve
       working-directory: ./terraform
 
-    - name: Deploy Flask-App && Test it.
+    - name: Copy private key && Flask App files
       run: |-
         sudo chmod 700 ./deploy_app.sh
         ./deploy_app.sh
       working-directory: ./terraform
 
-# sudo ssh -o StrictHostKeyChecking=no -i ../keys/ssh_key_aws ec2-user@$instance_ip << EOF
-#   ls -l
-#   sudo chmod 700 ./deploy_app.sh
-#   ./deploy_app.sh
-# EOF
+    - name: Deploy Flask-App && Test it.
+      run: |-
+        ssh -i ./keys/ssh_key_aws ec2-user@$instance_ip << EOF
+            ls -l
+            docker-compose up --build -d
+            docker exec -it flask_container python3 tests/test_hello.py
+        EOF
+      working-directory: ./terraform
