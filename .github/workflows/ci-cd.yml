@@ -4,9 +4,11 @@ on:
   # Auto
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-    types: [ "closed" ]
+  
+  # unnecessary becuase after merge you push to main so there will be dublicate.
+  # pull_request: 
+  #   branches: [ "main" ]
+  #   types: [ "closed" ]
 
   # Manual
   workflow_dispatch: # Allow to run this workflow manually from the Actions tab
