@@ -75,6 +75,7 @@ jobs:
 
     - name: Copy private key && Flask App files
       run: |-
+        echo "instance_ip=$(terraform output --raw instance_public_ip)" >> $GITHUB_ENV 
         sudo chmod 700 ./deploy_app.sh
         ./deploy_app.sh
       working-directory: ./terraform
@@ -86,4 +87,4 @@ jobs:
             docker-compose up --build -d
             docker exec -it flask_container python3 tests/test_hello.py
         EOF
-      working-directory: ./terraform
+      #working-directory: ./terraform
