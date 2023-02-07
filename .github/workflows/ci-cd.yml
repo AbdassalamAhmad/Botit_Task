@@ -80,6 +80,11 @@ jobs:
         echo "$EC2_PRIVATE_SSH_KEY" > ssh_key_aws
         sudo chmod 400 ssh_key_aws
         cd ../terraform
-        sudo chmod 700 ./deploy_app.sh
-        ./deploy_app.sh
+        instance_ip=$(terraform output --raw instance_public_ip)
+        sudo ssh -o StrictHostKeyChecking=no -i ../keys/ssh_key_aws ec2-user@$instance_ip
+        ls -l
+
       working-directory: ./terraform
+
+#sudo chmod 700 ./deploy_app.sh
+#./deploy_app.sh
