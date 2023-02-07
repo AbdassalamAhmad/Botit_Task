@@ -79,5 +79,6 @@ jobs:
         echo "$EC2_PRIVATE_SSH_KEY" > ssh_key_aws
         sudo chmod 400 ssh_key_aws
         cd ../terraform
+        sudo chmod 700 ./deploy_app.sh
         ./deploy_app.sh
       working-directory: ./terraform
