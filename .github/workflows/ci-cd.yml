@@ -47,19 +47,18 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Build and push
+    - name: Build to test
       uses: docker/build-push-action@v4
       with:
         context: .
         file: ./Dockerfile
         push: true
         tags: |
-          ${{ secrets.DOCKERHUB_USERNAME }}/flask_app:${{ github.sha }}
-          ${{ secrets.DOCKERHUB_USERNAME }}/flask_app:latest
+          ${{ secrets.DOCKERHUB_USERNAME }}/flask_app:test
 
     - name: run docker-compose
       if: env.TRIGGER == 'apply'
-      run: docker-compose up -d
+      run: docker run -p 80:5000 flask_app:test
 
     - name: make sure that docker-compose is running & Install dependencies
       if: env.TRIGGER == 'apply'
@@ -71,6 +70,15 @@ jobs:
       if: env.TRIGGER == 'apply'
       run: python ./tests/test_hello.py
 
+    - name: Build and push
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: |
+          ${{ secrets.DOCKERHUB_USERNAME }}/flask_app:${{ github.sha }}
+          ${{ secrets.DOCKERHUB_USERNAME }}/flask_app:latest
 
   
   build-aws-infra-deploy:
@@ -134,34 +142,3 @@ jobs:
           sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
           docker-compose up -d
-    
-    
-    
-    # - name: Copy private key && Flask App files
-    #   if: env.TRIGGER == 'apply'
-    #   run: |-
-    #     echo "instance_ip=$(terraform output --raw instance_public_ip)" >> $GITHUB_ENV 
-    #     sudo chmod 700 ./copy_app_files.sh
-    #     ./copy_app_files.sh
-    #   working-directory: ./terraform
-
-    # - name: Install Docker & Docker Compose on EC2
-    #   if: env.TRIGGER == 'apply'
-    #   run: |-
-    #     ssh -i ./keys/ssh_key_aws ec2-user@$instance_ip << EOF
-    #         sudo yum update -y
-    #         sudo amazon-linux-extras install docker -y
-    #         sudo service docker start
-    #         sudo usermod -a -G docker ec2-user
-    #         sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
-    #         sudo chmod +x /usr/local/bin/docker-compose
-    #     EOF
-    
-    # - name: Deploy Flask-App
-    #   if: env.TRIGGER == 'apply'
-    #   run: |-
-    #     ssh -i ./keys/ssh_key_aws ec2-user@$instance_ip << EOF
-    #         ls -l
-    #         docker-compose up --build -d
-    #     EOF
-      
