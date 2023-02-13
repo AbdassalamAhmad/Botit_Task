@@ -2,6 +2,6 @@ version: '3.9'
 services:
   flask:
     container_name: flask_container
-    build: . # build from Dockerfile
+    image: abod98/flask_app:latest # Don't forget to sign in if you make it PRIVATE.
     ports:
       - 80:5000 # host:container
