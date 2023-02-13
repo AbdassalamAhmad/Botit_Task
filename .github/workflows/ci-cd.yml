@@ -58,7 +58,7 @@ jobs:
 
     - name: run docker-compose
       if: env.TRIGGER == 'apply'
-      run: docker run -p 80:5000 flask_app:test
+      run: docker run -p 80:5000 ${{ secrets.DOCKERHUB_USERNAME }}/flask_app:test
 
     - name: make sure that docker-compose is running & Install dependencies
       if: env.TRIGGER == 'apply'
