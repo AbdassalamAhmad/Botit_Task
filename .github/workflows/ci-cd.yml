@@ -144,4 +144,5 @@ jobs:
           
           # The next line is very important to update images 
           docker-compose pull
+          # docker-compose build --pull --no-cache # this is full line for all images
           docker-compose up -d
